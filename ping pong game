@@ -1,0 +1,164 @@
+import turtle
+import time
+#Attributes
+#creates a window
+
+wn = turtle.Screen()
+wn.bgpic("pi.gif")
+wn.register_shape("ss.gif")
+#name
+wn.title("Ping Pong by Sundar")
+#colour
+wn.bgcolor("black")
+#sixe of the window to place the objects
+wn.setup(width=1000,height=800)
+#speeds the game
+wn.tracer(0)
+
+score_a = 0
+score_b = 0
+
+#paddle 1
+paddle1 = turtle.Turtle()
+#fast speed is zero
+paddle1.speed(0)
+paddle1.shape("square")
+paddle1.color("red")
+paddle1.shapesize(stretch_wid=2,stretch_len=7)
+#un trace from the original location
+paddle1.penup()
+#to place gthe paddle
+paddle1.goto(0,320)
+
+#paddle 2
+paddle2 = turtle.Turtle()
+#fast speed is zero
+paddle2.speed(0)
+paddle2.shape("square")
+paddle2.color("blue")
+paddle2.shapesize(stretch_wid=2,stretch_len=7)
+#un trace from the original location
+paddle2.penup()
+paddle2.goto(0,-320)
+#to know a paddle is created
+
+#ball
+ball = turtle.Turtle()
+#fast speed is zero
+ball.speed(0)
+ball.shape("ss.gif")
+ball.color("yellow")
+#un trace from the original location
+ball.penup()
+ball.goto(0,0)
+ballx = 2
+bally = 2
+#pen1
+pen1 =turtle.Turtle()
+pen1.speed(0)
+pen1.color("black")
+pen1.penup()
+pen1.hideturtle()
+pen1.goto(-350,-200)
+pen1.write("PLAYER A:0",align="center",font=("Courier",26))
+
+#pen2
+pen2 =turtle.Turtle()
+pen2.speed(0)
+pen2.color("black")
+pen2.penup()
+pen2.hideturtle()
+pen2.goto(350,-200)
+pen2.left(90)
+pen2.write("PLAYER B:0",align="center",font=("Courier",26))
+#to know a ball is created
+
+#moving paddles
+def paddle1_right():    
+#where the paddle is stored    
+    x= paddle1.xcor()
+#to increase the to up    
+    
+    x=x+20
+#tom set the location of paddl eafter increasing    
+    paddle1.setx(x)
+def paddle1_left():
+#where the paddle is stored    
+    x= paddle1.xcor()
+#to increase the to dwon   
+    
+    x=x-20
+#tom set the location of paddl eafter increasing    
+    paddle1.setx(x)
+def paddle2_right():
+#where the paddle is stored    
+    x= paddle2.xcor()
+#to increase the to dwon   
+    
+    x=x+20
+#tom set the location of paddl eafter increasing    
+    paddle2.setx(x)    
+
+
+def paddle2_left():
+#where the paddle is stored    
+    x= paddle2.xcor()
+#to increase the to dwon   
+    
+    x=x-20
+#tom set the location of paddl eafter increasing    
+    paddle2.setx(x)
+wn.listen()
+wn.onkeypress(paddle1_right,'d')
+wn.onkeypress(paddle1_left,'a')
+wn.onkeypress(paddle2_right,'Right')
+wn.onkeypress(paddle2_left,'Left')
+while True:
+    wn.update()
+    #moving balls
+    ball.setx(ball.xcor() + ballx)
+    ball.sety(ball.ycor() + bally)
+    time.sleep(0.01)
+
+    if(ball.ycor() >390):
+        pen2.clear()
+        score_b = score_b + 1
+        pen2.write("PLAYER B:{}".format(score_b),
+                  align ="center", font=("Courier",26,"normal"))
+        ball.goto(0,0)
+        bally = bally * -1
+        
+    if(ball.xcor() > 490):
+        ball.setx(490)
+        ballx = ballx * -1
+
+    if(ball.ycor() < -390):
+        pen1.clear()
+        score_a = score_a + 1
+        pen1.write("PLAYER A: {}".format(score_a),
+                  align ="center", font=("Courier",26,"normal"))
+        ball.goto(0,0)
+        bally = bally * -1
+
+    if(ball.xcor() < -490):
+        ball.setx(-490)
+        ballx = ballx * -1
+
+    if(ball.ycor() < -310 and ball.ycor() > -320) and (ball.xcor() < paddle2.xcor() + 50 and ball.xcor() > paddle2.xcor() - 50):
+         
+         
+    	ball.sety(-310)
+    	bally = bally * -1
+
+    if(ball.ycor() > 310 and ball.ycor() < 320) and (ball.xcor() < paddle1.xcor() + 50 and ball.xcor() > paddle1.xcor() - 50):
+    	ball.sety(310)
+    	bally = bally * -1
+        
+    
+        
+    
+        
+ 
+
+
+
