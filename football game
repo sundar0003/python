@@ -1,0 +1,192 @@
+import turtle
+import time
+from pygame import mixer
+#to add sound to game
+mixer.init()
+mixer.music.load("rayyapan.mp3")
+mixer.music.set_volume(0.7)
+
+# to create awindow to play
+wn = turtle.Screen()
+wn.register_shape("football.gif")
+wn.register_shape("ray.gif")
+wn.register_shape("raya.gif")
+wn.register_shape("mich.gif")
+wn.register_shape("mic.gif")
+wn.register_shape("left.gif")
+wn.register_shape("right.gif")
+wn.title("BIGIL FOOTBALL BY SUNDAR")
+wn.bgpic("grou.gif")
+wn.setup(width=1000, height=800)
+wn.tracer(0)
+
+score_a = 0
+score_b = 0
+
+# RAYYAPAN
+RAY = turtle.Turtle()
+RAY.speed(0)
+RAY.shape("ray.gif")
+RAY.shapesize(stretch_wid=5, stretch_len=1)
+RAY.color("red")
+RAY.penup()
+RAY.goto(-430,0)
+
+# MICHEAL
+MIC = turtle.Turtle()
+MIC.speed(0)
+MIC.shape("mic.gif")
+MIC.shapesize(stretch_wid=5, stretch_len=1)
+MIC.color("blue")
+MIC.penup()
+
+MIC.goto(430,0)
+
+# ball
+ball = turtle.Turtle()
+ball.speed(0)
+ball.shape("football.gif")
+ball.color("yellow")
+ball.penup()
+ball.goto(0,0)
+ballx = 2
+bally = 2
+
+
+#DISPLAY
+display = turtle.Turtle()
+display.speed(0)
+display.color("black")
+display.penup()
+display.hideturtle()
+display.goto(0,0)
+display.write("BIGIL" , align = "center",font=("Courier",92))
+time.sleep(5)
+display.clear()
+
+#pen
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color("black")
+pen.penup()
+pen.hideturtle()
+pen.goto(0,260)
+pen.write("RAYYAPAN : 0  ||  MICHEAL:0", align ="center", font=("Courier",24,"normal"))
+pen.hideturtle()
+#WINNER
+win = turtle.Turtle()
+win.speed(0)
+win.color("black")
+win.penup()
+win.goto(0,300)
+win.hideturtle()
+
+#goal left
+goall = turtle.Turtle()
+goall.speed(0)
+goall.color("white")
+goall.shape("right.gif")
+goall.penup()
+goall.goto(490,0)
+
+#goal right
+goalr = turtle.Turtle()
+goalr.speed(0)
+goalr.color("white")
+goalr.shape("left.gif")
+goalr.penup()
+goalr.goto(-490,0)
+
+#shapes
+shape = turtle.Turtle()
+shape.speed(0)
+shape.color("black")
+shape.penup()
+shape.goto(0,0)
+
+#moving my paddles
+
+def RAY_up():
+    y = RAY.ycor()
+    y = y + 20
+    RAY.sety(y)
+    
+def RAY_down():
+    y = RAY.ycor()
+    y = y - 20
+    RAY.sety(y)
+
+def MIC_up():
+    y = MIC.ycor()
+    y = y + 20
+    MIC.sety(y)
+    
+def MIC_down():
+    y = MIC.ycor()
+    y = y - 20
+    MIC.sety(y)
+
+wn.listen()
+wn.onkeypress(RAY_up,'w')
+wn.onkeypress(RAY_down,'s')
+wn.onkeypress(MIC_up,'Up')
+wn.onkeypress(MIC_down,'Down')
+
+while True:
+    wn.update()
+
+    # moving the balls
+    ball.setx(ball.xcor() + ballx)
+    ball.sety(ball.ycor() + bally)
+    time.sleep(0.0050)
+
+    if(ball.ycor() > 390):
+        ball.sety(390)
+        bally = bally * -1
+
+    if(ball.xcor() > 490):
+        pen.clear()
+        score_a = score_a + 1
+        pen.write("RAYYAPAN: {}  ||  MICHEAL:{}".format(score_a,score_b),
+                  align ="center", font=("Courier",24,"normal"))
+        ball.goto(0,0)
+        ballx = ballx * -1
+
+
+    if(ball.ycor() < -390):
+        ball.sety(-390)
+        bally = bally * -1
+
+    if(ball.xcor() < -490):
+        pen.clear()
+        score_b = score_b + 1
+        pen.write("RAYYAPAN: {}  ||  MICHEAL:{}".format(score_a,score_b),
+                  align ="center", font=("Courier",24,"normal"))
+        ball.goto(0,0)
+        ballx = ballx * -1
+
+    if(ball.xcor() > 420 and ball.xcor() < 430) and (ball.ycor() < MIC.ycor() + 50 and ball.ycor() > MIC.ycor() - 50):
+    	ball.setx(420)
+    	ballx = ballx * -1
+
+    if(ball.xcor() < -420 and ball.xcor() < -430) and (ball.ycor() < RAY.ycor() + 50 and ball.ycor() > RAY.ycor() - 50):
+    	ball.setx(-420)
+    	ballx = ballx * -1
+    if(score_a > 1):
+        shape.shape("raya.gif")
+        win.write("RAYYAPAN WON", align = "center", font =("Courier",92))
+        time.sleep(2)
+        RAY.goto(2000,2000)
+        MIC.goto(2000,2000)
+    if(score_b > 1):
+        shape.shape("mich.gif")
+        win.write("MICHEAL WON", align = "center", font =("Courier",92))
+        time.sleep(2)
+        RAY.goto(2000,2000)
+        MIC.goto(2000,2000)
+wn.clear()
+turtle.done
+
+
+  
+
